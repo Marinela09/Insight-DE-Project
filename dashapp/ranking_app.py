@@ -45,7 +45,7 @@ app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors[
             {'label': 'September', 'value': 'september'},
             {'label': 'October', 'value': 'october'},
             {'label': 'November', 'value': 'november'},
-	    {'label': 'December', 'value': 'december'}
+	        {'label': 'December', 'value': 'december'}
         ],
         value=' '
     ),
