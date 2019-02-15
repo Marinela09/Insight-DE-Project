@@ -50,7 +50,7 @@ app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors[
         value=' '
     ),
     html.Div(id='output-month'),
-   
+
     html.H2(children='Database Trends in 2018'),
     html.Label('Select a database:'),
     dcc.Dropdown(
@@ -60,7 +60,7 @@ app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors[
             {'label': 'Riak', 'value': 'Riak'},
             {'label': 'HBase', 'value': 'HBase'},
             {'label': 'Memcached', 'value': 'Memcached'},
-            {'label': 'PosrgreSQL', 'value': 'PostgreSQL'},
+            {'label': 'PostgreSQL', 'value': 'PostgreSQL'},
             {'label': 'JanusGraph', 'value': 'JanusGraph'},
             {'label': 'OrientDB', 'value': 'OrientDB'},
             {'label': 'Oracle Database', 'value': 'Oracle Database'},
@@ -84,7 +84,7 @@ app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors[
     html.Div(id ='output-category')
 ])
 
- 
+
 @app.callback(
     dash.dependencies.Output('output-month', 'children'),
     [dash.dependencies.Input('month-dropdown', 'value')])
@@ -142,7 +142,7 @@ def select_monthly_data(mon):
 
 ''' get historcal freq data per category from the database '''
 def select_cat_data(cat):
-  months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 
+  months = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
             'august', 'september', 'october', 'november', 'december']
   yData = []
 
