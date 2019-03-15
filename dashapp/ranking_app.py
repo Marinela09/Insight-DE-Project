@@ -6,7 +6,7 @@ import psycopg2
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-''' establish a connect to the  database'''
+'''establish a connection to the database'''
 file = open("credentials.txt", "r")
 f = file.readlines()
 l = [line.strip() for line in f]
