@@ -6,7 +6,7 @@ import psycopg2
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-'''establish a connection to the database'''
+''' ESTABLISH A CONNECTION TO THE DATABASE '''
 file = open("credentials.txt", "r")
 f = file.readlines()
 l = [line.strip() for line in f]
@@ -17,6 +17,7 @@ cur = conn.cursor()
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
+''' DEFINE COLORS FOR DIFFERENT COMPONENTS OF THE APPLICATION '''
 colors = {
     'background': '#FEF8FE',
     'text': '#000000',
@@ -25,7 +26,7 @@ colors = {
 }
 
 
-'''application layout'''
+''' APPLICATION LAYOUT INCLUDES TWO ’’’
 app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors['pagebackground']}, children=[
 
    html.H1(children='Common Crawl Database Trends'),
@@ -85,6 +86,7 @@ app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors[
 ])
 
 
+''' CALLBACK FUNCTION TO UPDATE RESULTS AFTER A USER SELECTS A VALUE FOR THE MONTH DROPDOWN '''
 @app.callback(
     dash.dependencies.Output('output-month', 'children'),
     [dash.dependencies.Input('month-dropdown', 'value')])
@@ -103,6 +105,7 @@ def update_monthly_output(value):
      ])
 
 
+''' CALLBACK FUNCTION TO UPDATE RESULTS AFTER A USER SELECTS A DATABASE NAME '''
 @app.callback(
     dash.dependencies.Output('output-category', 'children'),
     [dash.dependencies.Input('category-dropdown', 'value')])
@@ -121,11 +124,7 @@ def update_cat_output(value):
      ])
 
 
-
-
-
-
-'''  get freq data per month from the database '''
+'''  OBTAIN FREQUENCY DATA PET MONTH FROM THE DATABASE '''
 def select_monthly_data(mon):
   table = "results" + mon
   q1 = "Select name from " + table
@@ -139,8 +138,7 @@ def select_monthly_data(mon):
   return [xData, yData]
 
 
-
-''' get historcal freq data per category from the database '''
+''' OBTAIN HISTORICAL FREQUENCY DATA PER CATEGORY FROM THE DATABASE '''
 def select_cat_data(cat):
   months = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
             'august', 'september', 'october', 'november', 'december']
