@@ -33,6 +33,7 @@ Third-Party Libraries
 Install and configure [AWS](https://aws.amazon.com/cli/) and the open-source tool [Pegasus](https://github.com/InsightDataScience/pegasus) on your local machine and clone this repository `git clone https://github.com/Marinela09/Insight-DE-Project`. Configure a VPC with a security group and subnet on AWS and add your local IP address to the VPC inbound rules. 
 
 **AWS Clusters Setup**
+
 For my project, I used the following cluster structure: 
 * 7-node Spark Cluster for Batch Processing
 * 1-node Database Cluster for Postgres and front-end Dash application
@@ -57,6 +58,7 @@ For the workers, change the number of instances to 6, and the role to worker.
 
 
 **Installing the required technologies**
+
 **1.Spark and Hadoop**
 Use the following peg commands to install and start spark on the cluster
 
@@ -71,10 +73,12 @@ peg service SparkCluster spark start
 ```
 
 **2.Apache Airflow**
+
 SSH into the master node (`peg ssh SparkCluster 1`) of the SparkCluster and install Apache Airflow tool following the instructions in [this guide](https://medium.com/a-r-g-o/installing-apache-airflow-on-ubuntu-aws-6ebac15db211). 
 
 
 **3.PostgreSQL**
+
 SSH into the master node of the database cluster and install PostgresSQL. [Configure the database to allow remote connections](https://blog.bigbinary.com/2016/01/23/configure-postgresql-to-allow-remote-connection.html).
 
 
