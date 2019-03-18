@@ -18,16 +18,16 @@ The data was ingested from Amazon S3 using Spark Scala and the final results con
 
 # Requirements
 Languages 
-*Python 2.7
-*Scala 2.11.8
+* Python 2.7
+* Scala 2.11.8
 
 Technologies
-*Spark
-*Airflow 
-*PostgreSQL
+* Spark
+* Airflow 
+* PostgreSQL
 
 Third-Party Libraries
-*AWS CLI
+* AWS CLI
 
 # Environment Setup
 Install and configure [AWS](https://aws.amazon.com/cli/) and the open-source tool [Pegasus](https://github.com/InsightDataScience/pegasus) on your local machine and clone this repository `git clone https://github.com/Marinela09/Insight-DE-Project`. Configure a VPC with a security group and subnet on AWS and add your local IP address to the VPC inbound rules. 
