@@ -23,10 +23,10 @@ import helpers._
 object rankingsmall{
     def main(args: Array[String]) : Unit = {
 
-        // get and process configurations for s3 bucket
+        // GET AND PROCESS CONFIGURATIONS FOR S3 BUCKET
         val s3config = helpers.parse_S3config(args(0))
 
-        // set up spark context
+        // SET UP SPARK CONTEXT
         val credfile = "credentials"
         val creditems = Source.fromFile(credfile).getLines.toArray
         val conf = new SparkConf().setMaster(creditems(0)).setAppName("Ranking")
@@ -40,7 +40,7 @@ object rankingsmall{
         sc.hadoopConfiguration.set("fs.s3.endpoint", "s3.us-east-1.amazonaws.com")
         sc.hadoopConfiguration.set("fs.s3.impl", "org.apache.hadoop.fs.s3native.NativeS3FileSystem")
 
-        // create context text file
+        // CREATE CONTEXT TEXT FILE
         val crawlDir = s3config("list_of_paths")
         val files = sc.textFile(crawlDir) 
         val arr = files.collect()
@@ -55,28 +55,26 @@ object rankingsmall{
 	
 	sc.hadoopConfiguration.set("textinputformat.record.delimiter", "WARC-Target-URI:")
 
-        // form an array of file paths to be searched and create an rdd from them
+        // FORM AN ARRAY OF FILE PATHS TO BE SEARCHED AND CREATE AN RDD FROM THEM
         val arr2 = Array.ofDim[String](l)
         for (i <- 0 to l-1){
            arr2(i) = "s3://commoncrawl/" + arr(i)
         }
 
-	val filenames = arr2.mkString(",")
+        val filenames = arr2.mkString(",")
         val rdd0 = sc.textFile(filenames)
         val rdd = rdd0.coalesce(12)
 
-        // define a set of categories to be ranked
-        val categories = Set("MySQL", "Amazon Redshift", "Apache Cassandra", "Apache Druid", "Redis", "Oracle Database", "PostgreSQL", "Riak",
-        "HBase", "DynamoDB", "MongoDB", "Apache Solr", "Couchbase", "Neo4j", "OrientDB", "ArangoDB", "JanusGraph",
-        "InfluxDB", "Memcached", "Hazelcast")
+        // READ A SET OF CATEGORIES TO BE RANKED	 
+        val categories = Source.fromFile(“searchterms”).getLines.toSet
 
 
-        // compute the frequencies for the categories
+        // COMPUTE THE FREQUENCIES FOR THE CATEGORIES
         val pageCountsCollection =  rdd.map(record =>  count(record, categories))
         val t0 = pageCountsCollection.filter(notEmpty)
         val t1 = t0.flatMap(x => x.map(y => (y._1, y._2))).reduceByKey((x,y) => (x+y))
 
-        // create sql context and convert the rdd to a dataframe
+        // CREATE SQL CONTEXT AND CONVERT THE RDD TO A DATAFRAME
         val sqlContext : SQLContext = new SQLContext(sc)
         import sqlContext.implicits._
         val colNames = Seq("name", "frequency")
@@ -84,7 +82,7 @@ object rankingsmall{
         val df2 = df.withColumn("month", lit(s3config("month")))
 
 
-        //postgres connection and write results
+        // ESTABLISH A POSTGRES CONNECTION AND WRITE THE RESULTS TO THE DATABASE
         val prop = new java.util.Properties
         prop.setProperty("driver", "org.postgresql.Driver")
         prop.setProperty("user", creditems(1))
@@ -95,6 +93,9 @@ object rankingsmall{
     }
 
 
+    // HELPER FUNCTION TO MAP A WEBPAGE REPRESENTED AS A STRING TO A HASHMAP WITH KEYS 
+    // ALL DATABASE NAMES THAT APPEAR ON THAT PAGE AND VALUES OF 1
+ 
     def count(record : String, cat : Set[String]) : collection.mutable.Map[String, Int] = {
         val m = collection.mutable.Map[String, Int]()
         for (categ <- cat) {
@@ -104,10 +105,14 @@ object rankingsmall{
         return m
     }
 
+
+    // HELPER FUNCTION TO DETERMINE IF AN RDD RECORD IS EMPTY
     def notEmpty(record: collection.mutable.Map[String,Int]) : Boolean = {
         return !record.isEmpty
     }
 
+
+    // HELPER FUNCTION TO CALCULATE ELAPSED TIME
     def time[R](block: => R): R = {
         val t0 = System.nanoTime()
         val result = block    // call-by-name
