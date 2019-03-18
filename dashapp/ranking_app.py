@@ -26,7 +26,7 @@ colors = {
 }
 
 
-''' APPLICATION LAYOUT INCLUDES TWO ’’’
+''' APPLICATION LAYOUT INCLUDES TWO GRAPHS '''
 app.layout = html.Div(style={'color': colors['text'], 'backgroundColor': colors['pagebackground']}, children=[
 
    html.H1(children='Common Crawl Database Trends'),
