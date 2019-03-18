@@ -1,0 +1,20 @@
+MySQL 
+Amazon Redshift  
+Apache Cassandra 
+Apache Druid 
+Redis 
+Oracle Database 
+PostgreSQL 
+Riak 
+HBase 
+DynamoDB 
+MongoDB 
+Apache Solr 
+Couchbase 
+Neo4j 
+OrientDB 
+ArangoDB 
+JanusGraph 
+InfluxDB 
+Memcached 
+Hazelcast
