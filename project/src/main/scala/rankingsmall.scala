@@ -66,7 +66,7 @@ object rankingsmall{
         val rdd = rdd0.coalesce(12)
 
         // READ A SET OF CATEGORIES TO BE RANKED	 
-        val categories = Source.fromFile("searchterms").getLines.toSet
+        val categories = Source.fromFile("searchterms.txt”).getLines.toSet
 
 
         // COMPUTE THE FREQUENCIES FOR THE CATEGORIES
